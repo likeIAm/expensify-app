@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import '../node_modules/normalize.css/normalize.css';
 import './styles/styles.scss';
 
@@ -30,7 +30,10 @@ const HelpPage = () => (
 
 const NotFound404Page = () => (
     <div>
-        404!
+        {/*like this will cause a request to the server, we should modify the normal behaviour of the browser, but there's the Link tag that does this for us*/}
+        404! / <a href="/">Go home page</a>
+        {/*Client routing*/}
+        404! / <Link to="/">Go home page</Link> 
     </div>
 );
 
