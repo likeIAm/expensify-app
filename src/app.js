@@ -37,16 +37,25 @@ const NotFound404Page = () => (
     </div>
 );
 
+const Header = () => (
+    <header>
+        <h1>Expensify</h1>
+    </header>
+);
+
 const routes = (
-    <BrowserRouter>
-        <Switch>
-            <Route path="/" component={ExpenseDashboardPage} exact={true} /> {/*exact true, if not it will match it everytime*/}
-            <Route path="/create" component={AddExpensePage} />
-            <Route path="/edit" component={EditExpensePage} />
-            <Route path="/help" component={HelpPage} />
-            <Route component={NotFound404Page} />
-        </Switch>
-    </BrowserRouter>
+    <div>
+        <Header />
+        <BrowserRouter>
+            <Switch>
+                <Route path="/" component={ExpenseDashboardPage} exact={true} /> {/*exact true, if not it will match it everytime*/}
+                <Route path="/create" component={AddExpensePage} />
+                <Route path="/edit" component={EditExpensePage} />
+                <Route path="/help" component={HelpPage} />
+                <Route component={NotFound404Page} />
+            </Switch>
+        </BrowserRouter>
+    </div>
 );
 
 ReactDOM.render(routes, document.getElementById('app'));
