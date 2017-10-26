@@ -68,7 +68,7 @@ const setStartDate = (startDate = undefined) => ({
     startDate
 });
 // SET_END_DATE
-const setStartDate = (endDate = undefined) => ({
+const setEndDate = (endDate = undefined) => ({
     type: 'SET_END_DATE',
     endDate
 });
@@ -101,21 +101,31 @@ const store = createStore(combineReducers({
     filters: filtersReducer
 }));
 
+const getVisibleExpenses = (expenses, { startDate, endDate, text, sortBy }) => {
+    return expenses.filter((expense) => {
+        const startDateMatch = typeof startDate !== 'number' || startDate >= expense.startDate;
+        const endDateMatch = typeof endDate !== 'number' || endDate >= expense.endDate;
+        const textMatch = expense.description.toLowerCase().includes(text.toLowerCase());
+        return startDateMatch && endDateMatch && textMatch;
+    });
+};
+
 store.subscribe(() => {
-    console.log(store.getState())
+    const state = store.getState();
+    console.log(getVisibleExpenses(state.expenses, state.filters));
 });
 
 const expenseOne = store.dispatch(addExpense({ description: 'Blablabla', amount: 3300}));
 const expenseTwo = store.dispatch(addExpense());
 console.log(expenseTwo);
-store.dispatch(removeExpense({ id: expenseTwo.expense.id }));
+//store.dispatch(removeExpense({ id: expenseTwo.expense.id }));
 store.dispatch(editExpense(expenseOne.expense.id, {
     description: 'Edited description'
 }));
 
-store.dispatch(setTextFilter('Sti cazzi'));
+store.dispatch(setTextFilter('edited des'));
 store.dispatch(sortByAmount());
-store.dispatch(setStartDate('213432'));
+store.dispatch(setStartDate('-1'));
 const demoState = {
     expenses: [{
         id: 'fgdsgdsfsa',
