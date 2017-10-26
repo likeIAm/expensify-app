@@ -10,19 +10,32 @@ import { createStore, combineReducers } from 'redux';
 // SET_START_DATE
 // SET_END_DATE
 
-// Expense reducers
-
+// Expenses Reducer
 const expensesReducer = (state = [], action) => {
     switch (action) {
         default:
             return state;
     }
 };
+// Filters Reducer
+const filtersReducerDefault = {
+    text: '',
+    sortBy: 'date',
+    startDate: undefined,
+    endDate: undefined
+};
+const filtersReducer = (state = filtersReducerDefault, action) => {
+    switch (action) {
+        default:
+            return state;
+    }
+}
 
-//const store = createStore(expensesReducer);
 const store = createStore(combineReducers({
-    expenses: expensesReducer
+    expenses: expensesReducer,
+    filters: filtersReducer
 }));
+
 console.log(store.getState());
 
 const demoState = {
