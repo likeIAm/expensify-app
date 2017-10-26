@@ -2,7 +2,7 @@
 // Destructuring Array
 //
 
-const address = ['Via XX Settembre 112', 'Roveredo in Piano', /*'Pordenone'*/, 'Italy'];
+const address = ['Via XX Settembre 112', 'Roveredo in Piano', /*'Pordenone'*/undefined, 'Italy'];
 const [, city, province = 'Unknown province', country] = address;
 console.log(`I'm living in ${city}, in province of ${province}`);
 
