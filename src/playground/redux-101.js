@@ -4,29 +4,38 @@ const store = createStore((state = { count: 0 }, action) => {
     switch (action.type) {
         case 'INCREMENT':
             return {
-                count: state.count + 1
-            }
+                count: state.count + (typeof action.incrementBy === 'number' ? action.incrementBy : 1)
+            };
         case 'DECREMENT':
             return {
-                count: state.count - 1
-            }
+                count: state.count - (typeof action.decrementBy === 'number' ? action.decrementBy : 1)
+            };
         case 'RESET':
             return {
                 count: 0
-            }
+            };
+        case 'SET':
+            return {
+              count: action.count  
+            };
         default:
             return state;
     }
 });
 
-console.log(store.getState());
+const unscribe = store.subscribe(() => { 
+        console.log(store.getState())
+});
 
+// Action / an object that get sent to the store
 store.dispatch({
-    type: 'DECREMENT'
+    type: 'DECREMENT',
+    decrementBy: 10
 });
 
 store.dispatch({
-    type: 'INCREMENT'
+    type: 'INCREMENT',
+    incrementBy: 5
 });
 
 store.dispatch({
@@ -37,5 +46,9 @@ store.dispatch({
     type: 'RESET'
 });
 
+store.dispatch({
+    type: 'SET',
+    count: 5
+});
 
-console.log(store.getState());
+unscribe();
