@@ -16,10 +16,10 @@ const ExpenseListFilters = (props) => (
     </div>
 );
 
-const ConnectedExpenseListFilters = connect((state) => {
+const mapStateToProps = connect((state) => {
     return {
         textFilter: state.filters.text
     };
-})(ExpenseListFilters);
+});
 
-export default ConnectedExpenseListFilters;
+export default mapStateToProps(ExpenseListFilters);
