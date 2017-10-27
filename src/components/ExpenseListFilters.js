@@ -19,8 +19,8 @@ const ExpenseListFilters = (props) => (
                 props.dispatch(sortByAmount());
             }
         }}>
-            <option>date</option>
-            <option>amount</option>
+            <option value="date">Date</option>
+            <option value="amount">Amount</option>
         </select>
     </div>
 );
