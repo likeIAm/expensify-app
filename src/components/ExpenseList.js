@@ -4,16 +4,17 @@ import { connect } from 'react-redux';
 const ExpenseList = (props) => (
     <div>
         <h1>Expense list</h1>
-        {props.name}
+        {props.filters.text}
         {props.expenses.length}
     </div>
 );
-// the connect function returns a function withAdminWarning like the one in hoc.js
-const ConnectedExpenseList = connect((state) => {
-    return { // here i'm passing the props to the ExpenseList component
+// Remember that at every change of the state the component will
+// be rerendere, i don't need to use store.subscribe 
+const mapStateToProps = (state) => {
+    return {
         expenses: state.expenses,
-        name: 'Luca'
+        filters: state.filters
     }
-})(ExpenseList);
+};
 
-export default ConnectedExpenseList;
+export default connect(mapStateToProps)(ExpenseList);
