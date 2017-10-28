@@ -1,20 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
 import { addExpense } from '../actions/expenses';
 import 'react-dates/lib/css/_datepicker.css';
 
-const date = moment();
-console.log(date.format('MMM Do YYYY'));
-
-class ExpenseForm extends React.Component {
+export default class ExpenseForm extends React.Component {
     state = {
         description: '',
         note: '',
         amount: '',
         createdAt: moment(),
-        datePickerFocused: false
+        datePickerFocused: false,
+        error: ''
     }
     onDescriptionChange = (e) => {
         const description = e.target.value;
@@ -22,7 +19,7 @@ class ExpenseForm extends React.Component {
     }
     onAmountChange = (e) => {
         const amount = e.target.value;
-        if (amount.match(/^\d*(\.\d{0,2})?$/)) {
+        if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
             this.setState(() => ({ amount }));
         }
     }
@@ -31,23 +28,35 @@ class ExpenseForm extends React.Component {
         this.setState(() => ({ note }))
     }
     onDateChange = (createdAt) => {
-        console.log('ondatechange', createdAt);
-        this.setState(() => ({ createdAt }))
+        if (createdAt !== null) {
+            this.setState(() => ({ createdAt }));
+        }
     }
     onDatePickerFocusChange = ({ focused }) => {
-        console.log('onfocuschange', focused);
         this.setState((prevState) => ({
             datePickerFocused: focused
         }));
     }
     handleAddExpense = (e) => {
         e.preventDefault();
-        this.props.dispatch(addExpense({...this.state}));
+        if (!this.state.description || !this.state.amount) {
+            this.setState(() => ({ error: 'Please provide description and amount.' }));
+        } else {
+            this.setState(() => ({ error: '' }));
+            const expense = {...this.state};
+            this.props.onSubmit({
+                description: this.state.description,
+                amount: parseFloat(this.state.amount, 10) * 100,
+                createdAt: this.state.createdAt.valueOf(),
+                note: this.state.note
+            });
+        }
     }
     render() {
         return (
             <div>
                 <form onSubmit={this.handleAddExpense}>
+                    {this.state.error && <p>{this.state.error}</p>}
                     <input 
                         type="text" 
                         placeholder="Description"
@@ -68,6 +77,7 @@ class ExpenseForm extends React.Component {
                         onFocusChange={this.onDatePickerFocusChange}
                         numberOfMonths={1}
                         isOutsideRange={() => false}
+                        required={true}
                     />
                     <textarea 
                         placeholder="Add a note for your expense (optional)"
@@ -81,5 +91,3 @@ class ExpenseForm extends React.Component {
         )
     }
 }
-
-export default connect()(ExpenseForm);
