@@ -9,6 +9,8 @@ import { setTextFilter } from './actions/filters';
 import '../node_modules/normalize.css/normalize.css';
 import './styles/styles.scss';
 
+import moment from 'moment';
+
 const store = configureStore();
 console.log(store.getState());
 
@@ -17,9 +19,9 @@ store.subscribe(() => {
     console.log(getVisibleExpenses(state.expenses, state.filters))
 });
 
-store.dispatch(addExpense({ description: 'Water bill', amount: 33000 }));
-store.dispatch(addExpense({ description: 'Gas bill', amount: 45000 }));
-store.dispatch(addExpense({ description: 'Rent', amount: 123000 }));
+store.dispatch(addExpense({ description: 'Water bill', amount: 33000, createdAt: moment().valueOf() }));
+store.dispatch(addExpense({ description: 'Gas bill', amount: 45000, createdAt: moment().valueOf() }));
+store.dispatch(addExpense({ description: 'Rent', amount: 123000, createdAt: moment().valueOf() }));
 
 const jsx = (
     <Provider store={store}>
