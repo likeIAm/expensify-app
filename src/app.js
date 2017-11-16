@@ -21,8 +21,8 @@ store.subscribe(() => {
 });
 
 store.dispatch(addExpense({ description: 'Water bill', amount: 33000, createdAt: moment().valueOf() }));
-store.dispatch(addExpense({ description: 'Gas bill', amount: 45000, createdAt: moment().valueOf() }));
-store.dispatch(addExpense({ description: 'Rent', amount: 123000, createdAt: moment().valueOf() }));
+store.dispatch(addExpense({ description: 'Gas bill', amount: 45000, createdAt: moment().add(4, 'days').valueOf() }));
+store.dispatch(addExpense({ description: 'Rent', amount: 123000, createdAt: moment().add(-5, 'days').valueOf() }));
 
 const jsx = (
     <Provider store={store}>
